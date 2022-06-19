@@ -16,6 +16,9 @@ OBJECTS=$(subst sources/,objects/,$(subst .cpp,.o,$(SOURCES)))
 
 run: test
 
+main: main.o $(OBJECTS)
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
 test:  $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
@@ -33,5 +36,5 @@ valgrind: test
 	valgrind --tool=memcheck $(VALGRIND_FLAGS) ./test 2>&1 | { egrep "lost| at " || true; }
 
 clean:
-	rm -f $(OBJECTS) *.o test* 
+	rm -f $(OBJECTS) *.o test* main
 	rm -f StudentTest*.cpp
